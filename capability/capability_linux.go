@@ -126,6 +126,10 @@ func (c *capsV1) Equals(which CapType, caps []Cap) bool {
 	return true
 }
 
+func (c *capsV1) Int(which CapType) uint64 {
+	return 0
+}
+
 func (c *capsV1) Get(which CapType, what Cap) bool {
 	if what > 32 {
 		return false
@@ -311,6 +315,12 @@ func (c *capsV3) List(which CapType) []Cap {
 		}
 	}
 	return list
+}
+
+func (c *capsV3) Int(which CapType) uint64 {
+	var data [2]uint32
+	c.getData(which, data[:])
+	return uint64(data[1])<<32 + uint64(data[0])
 }
 
 func (c *capsV3) Set(which CapType, caps ...Cap) {
@@ -540,6 +550,10 @@ type capsFile struct {
 
 func (c *capsFile) Equals(which CapType, caps []Cap) bool {
 	return true
+}
+
+func (c *capsFile) Int(which CapType) uint64 {
+	return 0
 }
 
 func (c *capsFile) Get(which CapType, what Cap) bool {

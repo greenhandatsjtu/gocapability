@@ -64,6 +64,9 @@ type Capabilities interface {
 
 	//List return list of Cap of given CapType
 	List(which CapType) []Cap
+
+	//Int return uint64 values of given CapType
+	Int(which CapType) uint64
 }
 
 // NewPid initializes a new Capabilities object for given pid when
