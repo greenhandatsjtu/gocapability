@@ -55,7 +55,7 @@ func initLastCap() error {
 	}
 	defer f.Close()
 
-	var b []byte = make([]byte, 11)
+	var b = make([]byte, 11)
 	_, err = f.Read(b)
 	if err != nil {
 		return err
@@ -120,6 +120,10 @@ func newPid(pid int) (c Capabilities, err error) {
 type capsV1 struct {
 	hdr  capHeader
 	data capData
+}
+
+func (c *capsV1) Equals(which CapType, caps uint64) bool {
+	return true
 }
 
 func (c *capsV1) Get(which CapType, what Cap) bool {
@@ -453,6 +457,23 @@ func (c *capsV3) Load() (err error) {
 	return
 }
 
+func (c *capsV3) Equals(which CapType, caps uint64) bool {
+	switch {
+	case which&EFFECTIVE == EFFECTIVE:
+		return uint64(c.data[1].effective)<<32+uint64(c.data[0].effective) == caps
+	case which&PERMITTED == PERMITTED:
+		return uint64(c.data[1].permitted)<<32+uint64(c.data[0].permitted) == caps
+	case which&INHERITABLE == INHERITABLE:
+		return uint64(c.data[1].inheritable)<<32+uint64(c.data[0].inheritable) == caps
+	case which&BOUNDING == BOUNDING:
+		return uint64(c.bounds[1])<<32+uint64(c.bounds[0]) == caps
+	case which&AMBIENT == AMBIENT:
+		return uint64(c.ambient[1])<<32+uint64(c.ambient[0]) == caps
+	default:
+		return true
+	}
+}
+
 func (c *capsV3) Apply(kind CapType) (err error) {
 	if kind&BOUNDS == BOUNDS {
 		var data [2]capData
@@ -511,6 +532,10 @@ func newFile(path string) (c Capabilities, err error) {
 type capsFile struct {
 	path string
 	data vfscapData
+}
+
+func (c *capsFile) Equals(which CapType, caps uint64) bool {
+	return true
 }
 
 func (c *capsFile) Get(which CapType, what Cap) bool {

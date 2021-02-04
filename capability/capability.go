@@ -58,6 +58,9 @@ type Capabilities interface {
 	// Apply apply the capabilities settings, so all changes will take
 	// effect.
 	Apply(kind CapType) error
+
+	// Equals compares capabilities
+	Equals(which CapType, caps uint64) bool
 }
 
 // NewPid initializes a new Capabilities object for given pid when
