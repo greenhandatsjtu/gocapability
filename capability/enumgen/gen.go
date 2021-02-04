@@ -33,10 +33,10 @@ func (g *generator) writeStringFunc() {
 	g.buf.WriteString("switch c {\n")
 	for _, cap := range g.caps {
 		fmt.Fprintf(&g.buf, "case %s:\n", cap)
-		fmt.Fprintf(&g.buf, "return \"%s\"\n", strings.ToLower(cap[4:]))
+		fmt.Fprintf(&g.buf, "return \"%s\"\n", cap)
 	}
 	g.buf.WriteString("}\n")
-	g.buf.WriteString("return \"unknown\"\n")
+	g.buf.WriteString("return \"UNKNOWN\"\n")
 	g.buf.WriteString("}\n")
 }
 

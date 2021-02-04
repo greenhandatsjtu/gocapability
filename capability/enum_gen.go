@@ -5,89 +5,89 @@ package capability
 func (c Cap) String() string {
 	switch c {
 	case CAP_CHOWN:
-		return "chown"
+		return "CAP_CHOWN"
 	case CAP_DAC_OVERRIDE:
-		return "dac_override"
+		return "CAP_DAC_OVERRIDE"
 	case CAP_DAC_READ_SEARCH:
-		return "dac_read_search"
+		return "CAP_DAC_READ_SEARCH"
 	case CAP_FOWNER:
-		return "fowner"
+		return "CAP_FOWNER"
 	case CAP_FSETID:
-		return "fsetid"
+		return "CAP_FSETID"
 	case CAP_KILL:
-		return "kill"
+		return "CAP_KILL"
 	case CAP_SETGID:
-		return "setgid"
+		return "CAP_SETGID"
 	case CAP_SETUID:
-		return "setuid"
+		return "CAP_SETUID"
 	case CAP_SETPCAP:
-		return "setpcap"
+		return "CAP_SETPCAP"
 	case CAP_LINUX_IMMUTABLE:
-		return "linux_immutable"
+		return "CAP_LINUX_IMMUTABLE"
 	case CAP_NET_BIND_SERVICE:
-		return "net_bind_service"
+		return "CAP_NET_BIND_SERVICE"
 	case CAP_NET_BROADCAST:
-		return "net_broadcast"
+		return "CAP_NET_BROADCAST"
 	case CAP_NET_ADMIN:
-		return "net_admin"
+		return "CAP_NET_ADMIN"
 	case CAP_NET_RAW:
-		return "net_raw"
+		return "CAP_NET_RAW"
 	case CAP_IPC_LOCK:
-		return "ipc_lock"
+		return "CAP_IPC_LOCK"
 	case CAP_IPC_OWNER:
-		return "ipc_owner"
+		return "CAP_IPC_OWNER"
 	case CAP_SYS_MODULE:
-		return "sys_module"
+		return "CAP_SYS_MODULE"
 	case CAP_SYS_RAWIO:
-		return "sys_rawio"
+		return "CAP_SYS_RAWIO"
 	case CAP_SYS_CHROOT:
-		return "sys_chroot"
+		return "CAP_SYS_CHROOT"
 	case CAP_SYS_PTRACE:
-		return "sys_ptrace"
+		return "CAP_SYS_PTRACE"
 	case CAP_SYS_PACCT:
-		return "sys_pacct"
+		return "CAP_SYS_PACCT"
 	case CAP_SYS_ADMIN:
-		return "sys_admin"
+		return "CAP_SYS_ADMIN"
 	case CAP_SYS_BOOT:
-		return "sys_boot"
+		return "CAP_SYS_BOOT"
 	case CAP_SYS_NICE:
-		return "sys_nice"
+		return "CAP_SYS_NICE"
 	case CAP_SYS_RESOURCE:
-		return "sys_resource"
+		return "CAP_SYS_RESOURCE"
 	case CAP_SYS_TIME:
-		return "sys_time"
+		return "CAP_SYS_TIME"
 	case CAP_SYS_TTY_CONFIG:
-		return "sys_tty_config"
+		return "CAP_SYS_TTY_CONFIG"
 	case CAP_MKNOD:
-		return "mknod"
+		return "CAP_MKNOD"
 	case CAP_LEASE:
-		return "lease"
+		return "CAP_LEASE"
 	case CAP_AUDIT_WRITE:
-		return "audit_write"
+		return "CAP_AUDIT_WRITE"
 	case CAP_AUDIT_CONTROL:
-		return "audit_control"
+		return "CAP_AUDIT_CONTROL"
 	case CAP_SETFCAP:
-		return "setfcap"
+		return "CAP_SETFCAP"
 	case CAP_MAC_OVERRIDE:
-		return "mac_override"
+		return "CAP_MAC_OVERRIDE"
 	case CAP_MAC_ADMIN:
-		return "mac_admin"
+		return "CAP_MAC_ADMIN"
 	case CAP_SYSLOG:
-		return "syslog"
+		return "CAP_SYSLOG"
 	case CAP_WAKE_ALARM:
-		return "wake_alarm"
+		return "CAP_WAKE_ALARM"
 	case CAP_BLOCK_SUSPEND:
-		return "block_suspend"
+		return "CAP_BLOCK_SUSPEND"
 	case CAP_AUDIT_READ:
-		return "audit_read"
+		return "CAP_AUDIT_READ"
 	case CAP_PERFMON:
-		return "perfmon"
+		return "CAP_PERFMON"
 	case CAP_BPF:
-		return "bpf"
+		return "CAP_BPF"
 	case CAP_CHECKPOINT_RESTORE:
-		return "checkpoint_restore"
+		return "CAP_CHECKPOINT_RESTORE"
 	}
-	return "unknown"
+	return "UNKNOWN"
 }
 
 // List returns list of all supported capabilities

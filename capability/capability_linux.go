@@ -30,9 +30,9 @@ var (
 )
 
 func init() {
-	var hdr capHeader
-	capget(&hdr, nil)
-	capVers = hdr.version
+	//var hdr capHeader
+	//capget(&hdr, nil)
+	capVers = linuxCapVer3
 
 	if initLastCap() == nil {
 		CAP_LAST_CAP = capLastCap
@@ -396,10 +396,10 @@ func (c *capsV3) String() (ret string) {
 }
 
 func (c *capsV3) Load() (err error) {
-	err = capget(&c.hdr, &c.data[0])
-	if err != nil {
-		return
-	}
+	//err = capget(&c.hdr, &c.data[0])
+	//if err != nil {
+	//	return
+	//}
 
 	var status_path string
 
@@ -422,10 +422,27 @@ func (c *capsV3) Load() (err error) {
 			}
 			break
 		}
+		// Effective
+		if strings.HasPrefix(line, "CapE") {
+			fmt.Sscanf(line[4:], "ff:  %08x%08x", &c.data[1].effective, &c.data[0].effective)
+			continue
+		}
+		// Permitted
+		if strings.HasPrefix(line, "CapP") {
+			fmt.Sscanf(line[4:], "rm:  %08x%08x", &c.data[1].permitted, &c.data[0].permitted)
+			continue
+		}
+		// Inheritable
+		if strings.HasPrefix(line, "CapI") {
+			fmt.Sscanf(line[4:], "nh:  %08x%08x", &c.data[1].inheritable, &c.data[0].inheritable)
+			continue
+		}
+		// Bounds
 		if strings.HasPrefix(line, "CapB") {
 			fmt.Sscanf(line[4:], "nd:  %08x%08x", &c.bounds[1], &c.bounds[0])
 			continue
 		}
+		// Ambient
 		if strings.HasPrefix(line, "CapA") {
 			fmt.Sscanf(line[4:], "mb:  %08x%08x", &c.ambient[1], &c.ambient[0])
 			continue
