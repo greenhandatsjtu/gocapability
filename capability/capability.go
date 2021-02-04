@@ -60,7 +60,10 @@ type Capabilities interface {
 	Apply(kind CapType) error
 
 	// Equals compares capabilities
-	Equals(which CapType, caps uint64) bool
+	Equals(which CapType, caps []Cap) bool
+
+	//List return list of Cap of given CapType
+	List(which CapType) []Cap
 }
 
 // NewPid initializes a new Capabilities object for given pid when

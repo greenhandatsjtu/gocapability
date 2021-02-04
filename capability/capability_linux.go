@@ -122,7 +122,7 @@ type capsV1 struct {
 	data capData
 }
 
-func (c *capsV1) Equals(which CapType, caps uint64) bool {
+func (c *capsV1) Equals(which CapType, caps []Cap) bool {
 	return true
 }
 
@@ -161,6 +161,10 @@ func (c *capsV1) Empty(which CapType) bool {
 
 func (c *capsV1) Full(which CapType) bool {
 	return (c.getData(which) & 0x7fffffff) == 0x7fffffff
+}
+
+func (c *capsV1) List(which CapType) []Cap {
+	return []Cap{}
 }
 
 func (c *capsV1) Set(which CapType, caps ...Cap) {
@@ -297,6 +301,16 @@ func (c *capsV3) Full(which CapType) bool {
 		return false
 	}
 	return (data[1] & capUpperMask) == capUpperMask
+}
+
+func (c *capsV3) List(which CapType) []Cap {
+	var list []Cap
+	for _, i := range List() {
+		if c.Get(which, i) {
+			list = append(list, i)
+		}
+	}
+	return list
 }
 
 func (c *capsV3) Set(which CapType, caps ...Cap) {
@@ -457,21 +471,11 @@ func (c *capsV3) Load() (err error) {
 	return
 }
 
-func (c *capsV3) Equals(which CapType, caps uint64) bool {
-	switch {
-	case which&EFFECTIVE == EFFECTIVE:
-		return uint64(c.data[1].effective)<<32+uint64(c.data[0].effective) == caps
-	case which&PERMITTED == PERMITTED:
-		return uint64(c.data[1].permitted)<<32+uint64(c.data[0].permitted) == caps
-	case which&INHERITABLE == INHERITABLE:
-		return uint64(c.data[1].inheritable)<<32+uint64(c.data[0].inheritable) == caps
-	case which&BOUNDING == BOUNDING:
-		return uint64(c.bounds[1])<<32+uint64(c.bounds[0]) == caps
-	case which&AMBIENT == AMBIENT:
-		return uint64(c.ambient[1])<<32+uint64(c.ambient[0]) == caps
-	default:
-		return true
-	}
+func (c *capsV3) Equals(which CapType, caps []Cap) bool {
+	var data [2]uint32
+	c.getData(which, data[:])
+	capsUint := capsToUint(caps)
+	return data[0] == capsUint[0] && data[1] == capsUint[1]
 }
 
 func (c *capsV3) Apply(kind CapType) (err error) {
@@ -534,7 +538,7 @@ type capsFile struct {
 	data vfscapData
 }
 
-func (c *capsFile) Equals(which CapType, caps uint64) bool {
+func (c *capsFile) Equals(which CapType, caps []Cap) bool {
 	return true
 }
 
@@ -590,6 +594,10 @@ func (c *capsFile) Full(which CapType) bool {
 		return false
 	}
 	return (data[1] & capUpperMask) == capUpperMask
+}
+
+func (c *capsFile) List(which CapType) []Cap {
+	return []Cap{}
 }
 
 func (c *capsFile) Set(which CapType, caps ...Cap) {

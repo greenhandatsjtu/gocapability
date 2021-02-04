@@ -307,3 +307,32 @@ var (
 
 	capUpperMask = ^uint32(0)
 )
+
+//capsToUint convert []Cap into [2]uint32
+func capsToUint(caps []Cap) [2]uint32 {
+	var res uint64
+	var data [2]uint32
+	for _, i := range caps {
+		res += 1 << i
+	}
+	data[0] = uint32(res)
+	data[1] = uint32(res >> 32)
+	return data
+}
+
+//Sub return difference set of two []Cap
+func Sub(left []Cap, right []Cap) []Cap {
+	var res []Cap
+	for _, l := range left {
+		flag := false
+		for _, r := range right {
+			if l == r {
+				flag = true
+			}
+		}
+		if !flag {
+			res = append(res, l)
+		}
+	}
+	return res
+}
